@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-accent: #1e90ff;
+  --color-surface: #111111;
+  --color-surface-2: #1a1a1a;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --surface: #f5f5f5;
+  --surface-2: #ebebeb;
+  --text-primary: #171717;
+  --text-muted: #666666;
+  --border-color: #e0e0e0;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #e0e0e0;
+  --surface: #111111;
+  --surface-2: #1a1a1a;
+  --text-primary: #e0e0e0;
+  --text-muted: #888888;
+  --border-color: #2a2a2a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Shared page-section layout: compact on phones, full-height on desktop. */
+@layer components {
+  .section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 1rem;
+    /* clears the fixed 56px mobile top bar when jumping via the menu */
+    scroll-margin-top: 3.5rem;
+  }
+  @media (min-width: 640px) {
+    .section {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  @media (min-width: 768px) {
+    .section {
+      min-height: 100vh;
+      justify-content: center;
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+      scroll-margin-top: 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: #1e90ff;
+  border-radius: 3px;
+}
+
+/* Hero "Building with" strip. The list is rendered twice and slides by exactly
+   half its width, so the loop is seamless. Each item uses margin-right (not gap)
+   so both halves are the same width. */
+.marquee {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .marquee-track {
+    animation: none;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.5rem;
+  }
+  .marquee-track > [aria-hidden="true"] {
+    display: none;
+  }
+}
