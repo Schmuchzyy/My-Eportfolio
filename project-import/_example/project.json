@@ -4,18 +4,29 @@
   "kind": "Capstone project · HAU",
   "period": "Dec 2024 – Mar 2025",
   "description": "A responsive platform for reporting missing persons, with real-time updates, user accounts and secure cloud storage for reports and photos.",
+  "overview": [
+    "My capstone project at Holy Angel University: a responsive web platform for reporting missing persons.",
+    "Built with Vue.js on Firebase, with real-time data, sign-in and cloud storage for report photos."
+  ],
   "highlights": [
     "Real-time report updates with Firebase so new sightings appear without refreshing.",
     "Sign-in and role-based access so only verified users can edit a report.",
     "End-to-end testing across browsers and phone sizes before submission."
   ],
-  "tags": ["Vue.js", "Firebase", "Authentication", "Cloud Storage"],
+  "tags": [
+    "Vue.js",
+    "Firebase",
+    "Authentication",
+    "Cloud Storage"
+  ],
   "liveUrl": null,
   "repoUrl": null,
   "screenshots": [
     {
       "file": "01-cover.png",
-      "alt": "Report list with a search bar and recent missing person reports"
+      "alt": "Report list with a search bar and recent missing person reports",
+      "title": "The report list",
+      "description": "Recent reports with a search bar. New reports appear without a refresh."
     }
   ],
   "notesForClaude": "EXAMPLE ONLY. Shows the expected format; the highlights here are illustrative."

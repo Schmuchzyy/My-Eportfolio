@@ -15,16 +15,11 @@
  *    viewer is looking at and why that part of the workflow matters.
  */
 
+import type { Screenshot } from "./screenshot";
+
 export type AutomationStatus = "live" | "in-progress" | "concept";
 
-export interface WorkflowScreenshot {
-  src: string;
-  alt: string;
-  /** Short heading shown under the image, e.g. "The full workflow in n8n" */
-  title: string;
-  /** What this screenshot shows — one string per paragraph */
-  description: string[];
-}
+export type WorkflowScreenshot = Screenshot;
 
 export interface Automation {
   /** Used in the URL (#workflow-<slug>) — lowercase, dashes, no spaces */
@@ -42,8 +37,10 @@ export interface Automation {
   tag?: string;
   /** One-line background shown at the top of the panel (who it was for, how it was built) */
   context?: string;
-  /** Optional measurable outcome, e.g. "Saves ~6 hrs/week" */
+  /** Optional measurable outcome, e.g. "Saves ~6 hrs/week". Shown on the card and in the panel. */
   result?: string;
+  /** Card cover image. Defaults to the first screenshot. */
+  cover?: string;
   link?: string | null;
   screenshots: WorkflowScreenshot[];
 }
@@ -63,6 +60,8 @@ export const automations: Automation[] = [
       "The tool that changes data refuses unless the owner has confirmed, the row exists and the name matches the row, and it logs every change. The endpoint needs a bearer token. A 20-case test script checks all of this and passes 20 of 20."
     ],
     flow: ["MCP Server", "Tool sub-workflows", "Google Sheets", "pgvector search", "Claude or Gemini"],
+    result: "Passes 20 of 20 test cases",
+    cover: "/workflows/ask-your-shop-mcp-rag/02-mcp-server.png",
     tools: ["n8n", "Model Context Protocol", "Claude Desktop", "Google Gemini", "PostgreSQL", "pgvector", "Google Sheets", "Docker"],
     status: "live",
     tag: "Practice client",
@@ -106,6 +105,7 @@ export const automations: Automation[] = [
       "The AI steps live in a sub-workflow, so a separate test set runs the same prompts against 12 tricky enquiries, including one that tries to trick the AI. All 12 pass. If Gemini fails, the enquiry is treated as unsure and the owner is still alerted."
     ],
     flow: ["Form", "Spam rule", "Gemini classify", "Log to sheet", "Router", "Gmail"],
+    result: "Passes all 12 tricky test enquiries",
     tools: ["n8n", "Google Gemini", "Google Sheets", "Gmail"],
     status: "live",
     tag: "Practice client",
@@ -156,6 +156,7 @@ export const automations: Automation[] = [
       "The sheet row is written before the email is sent, so a customer is never told \"we've got it\" when the shop has no record. If any live run fails, a separate error workflow emails the owner with a link to the failed run."
     ],
     flow: ["Form", "Spam check", "Google Sheets", "Gmail reply", "Error alert"],
+    result: "Every enquiry is saved before the reply goes out",
     tools: ["n8n", "Google Sheets", "Gmail"],
     status: "live",
     tag: "Practice client",

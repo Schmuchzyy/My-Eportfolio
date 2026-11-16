@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
   Workflow,
   Images,
@@ -14,7 +15,7 @@ import {
 } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
 import WorkflowModal, { statusStyle } from "@/components/WorkflowModal";
-import { closeWorkflow, openWorkflow, useOpenWorkflowSlug } from "@/lib/workflowPanel";
+import { closeWorkflow, openWorkflow, useOpenWorkflowSlug } from "@/lib/hashPanel";
 import {
   automations,
   automationServices,
@@ -31,6 +32,9 @@ const serviceIcons = {
 
 /** "What I automate" cards (Lead capture, Inbox triage, ...). Hidden for now — set to true to bring them back. */
 const SHOW_SERVICES = false;
+
+/** Tool tags shown on a workflow card; the full list is in the panel. */
+const CARD_TOOLS = 4;
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -105,88 +109,99 @@ export default function Automations() {
         <div>
           <SubLabel>Workflows</SubLabel>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-5">
-            {automations.map(({ slug, title, description, flow, tools, status, tag, result, screenshots }, i) => (
-              <motion.article
-                key={slug}
-                {...fadeUp(i * 0.1)}
-                className="group relative flex flex-col bg-[var(--surface)] border border-[var(--border-color)] rounded-2xl p-5 sm:p-6 cursor-pointer hover:border-[#1e90ff]/50 hover:-translate-y-0.5 transition-[border-color,translate] has-[button:focus-visible]:ring-2 has-[button:focus-visible]:ring-[#1e90ff]"
-              >
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <h3 className="font-semibold text-[var(--text-primary)] leading-snug">
-                    {/* The ::after covers the whole card, so a tap anywhere opens the panel */}
-                    <button
-                      type="button"
-                      onClick={() => openWorkflow(slug)}
-                      aria-haspopup="dialog"
-                      className="text-left focus:outline-none after:absolute after:inset-0 after:rounded-2xl after:content-['']"
-                    >
-                      {title}
-                    </button>
-                  </h3>
-                  <div className="flex-shrink-0 flex flex-col items-end gap-1">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${statusStyle[status].className}`}>
-                      {statusStyle[status].label}
-                    </span>
-                    {tag && (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-medium border whitespace-nowrap bg-[var(--surface-2)] text-[var(--text-muted)] border-[var(--border-color)]">
-                        {tag}
-                      </span>
+            {automations.map(({ slug, title, description, tools, status, tag, result, cover, screenshots }, i) => {
+              const coverSrc = cover ?? screenshots[0]?.src;
+              return (
+                <motion.article
+                  key={slug}
+                  {...fadeUp(i * 0.1)}
+                  className="group relative flex flex-col bg-[var(--surface)] border border-[var(--border-color)] rounded-2xl overflow-hidden cursor-pointer hover:border-[#1e90ff]/50 hover:-translate-y-0.5 transition-[border-color,translate] has-[button:focus-visible]:ring-2 has-[button:focus-visible]:ring-[#1e90ff]"
+                >
+                  {/* Cover screenshot, or an icon tile when there isn't one */}
+                  <div className="relative aspect-[16/9] bg-[var(--surface-2)] overflow-hidden border-b border-[var(--border-color)]">
+                    {coverSrc ? (
+                      <Image
+                        src={coverSrc}
+                        alt=""
+                        fill
+                        sizes="(min-width: 1024px) 320px, (min-width: 768px) 50vw, 100vw"
+                        unoptimized={coverSrc.endsWith(".svg")}
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center bg-[#1e90ff]/5">
+                        <Workflow size={30} className="text-[#1e90ff]" />
+                      </div>
                     )}
                   </div>
-                </div>
 
-                <p className="text-[var(--text-muted)] text-sm leading-relaxed">{description}</p>
-
-                {/* Flow diagram: wraps on narrow screens */}
-                <div className="mt-4 rounded-xl bg-[var(--surface-2)] border border-[var(--border-color)] p-3">
-                  <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-2" aria-label="Workflow steps">
-                    {flow.map((step, s) => (
-                      <li key={step} className="flex items-center gap-1.5">
-                        <span
-                          className={`px-2 py-1 rounded-md text-[11px] font-medium border whitespace-nowrap ${
-                            s === 0
-                              ? "bg-[#1e90ff] text-white border-[#1e90ff]"
-                              : "bg-[var(--surface)] text-[var(--text-primary)] border-[var(--border-color)]"
-                          }`}
+                  <div className="flex flex-col flex-1 p-5 sm:p-6">
+                    <div className="flex items-start justify-between gap-3 mb-3">
+                      <h3 className="font-semibold text-[var(--text-primary)] leading-snug">
+                        {/* The ::after covers the whole card, so a tap anywhere opens the panel */}
+                        <button
+                          type="button"
+                          onClick={() => openWorkflow(slug)}
+                          aria-haspopup="dialog"
+                          className="text-left focus:outline-none after:absolute after:inset-0 after:rounded-2xl after:content-['']"
                         >
-                          {step}
+                          {title}
+                        </button>
+                      </h3>
+                      <div className="flex-shrink-0 flex flex-col items-end gap-1">
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${statusStyle[status].className}`}>
+                          {statusStyle[status].label}
                         </span>
-                        {s < flow.length - 1 && <ArrowRight size={12} className="text-[var(--text-muted)]" aria-hidden />}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
+                        {tag && (
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-medium border whitespace-nowrap bg-[var(--surface-2)] text-[var(--text-muted)] border-[var(--border-color)]">
+                            {tag}
+                          </span>
+                        )}
+                      </div>
+                    </div>
 
-                {result && (
-                  <p className="flex items-center gap-1.5 mt-3 text-sm font-medium text-emerald-500">
-                    <CircleCheck size={14} /> {result}
-                  </p>
-                )}
+                    <p className="text-[var(--text-muted)] text-sm leading-relaxed">{description}</p>
 
-                <div className="flex flex-wrap gap-1.5 mt-4">
-                  {tools.map((tool) => (
-                    <span
-                      key={tool}
-                      className="px-2 py-0.5 rounded-full text-xs bg-[var(--surface-2)] text-[var(--text-muted)] border border-[var(--border-color)]"
-                    >
-                      {tool}
-                    </span>
-                  ))}
-                </div>
+                    {result && (
+                      <p className="flex items-start gap-1.5 mt-3 text-sm font-medium text-emerald-500">
+                        <CircleCheck size={14} className="flex-shrink-0 mt-[3px]" /> {result}
+                      </p>
+                    )}
 
-                <div className="mt-auto pt-4 flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-1 text-[#1e90ff] text-sm font-medium">
-                    View details
-                    <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
-                  </span>
-                  {screenshots.length > 0 && (
-                    <span className="inline-flex items-center gap-1 text-xs text-[var(--text-muted)]">
-                      <Images size={13} /> {screenshots.length}
-                    </span>
-                  )}
-                </div>
-              </motion.article>
-            ))}
+                    <div className="flex flex-wrap gap-1.5 mt-4">
+                      {tools.slice(0, CARD_TOOLS).map((tool) => (
+                        <span
+                          key={tool}
+                          className="px-2 py-0.5 rounded-full text-xs bg-[var(--surface-2)] text-[var(--text-muted)] border border-[var(--border-color)]"
+                        >
+                          {tool}
+                        </span>
+                      ))}
+                      {tools.length > CARD_TOOLS && (
+                        <span
+                          className="px-2 py-0.5 rounded-full text-xs text-[var(--text-muted)] border border-dashed border-[var(--border-color)]"
+                          aria-label={`and ${tools.length - CARD_TOOLS} more tools`}
+                        >
+                          +{tools.length - CARD_TOOLS}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="mt-auto pt-4 flex items-center justify-between gap-3">
+                      <span className="inline-flex items-center gap-1 text-[#1e90ff] text-sm font-medium">
+                        View details
+                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+                      </span>
+                      {screenshots.length > 0 && (
+                        <span className="inline-flex items-center gap-1 text-xs text-[var(--text-muted)]">
+                          <Images size={13} /> {screenshots.length}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
           </div>
         </div>
 

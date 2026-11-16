@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import TechIcon from "@/components/TechIcon";
 import { aiTools } from "@/data/aiTools";
 
 type Category = "all" | "frontend" | "backend" | "automation" | "tools";
@@ -10,40 +10,39 @@ type Category = "all" | "frontend" | "backend" | "automation" | "tools";
 interface Skill {
   name: string;
   category: Exclude<Category, "all">;
-  src: string | null;
 }
 
 const skills: Skill[] = [
   // Frontend
-  { name: "HTML5",       category: "frontend",   src: "/html.png" },
-  { name: "CSS3",        category: "frontend",   src: "/css.png" },
-  { name: "JavaScript",  category: "frontend",   src: "/js.png" },
-  { name: "Angular",     category: "frontend",   src: "/angular.png" },
-  { name: "React",       category: "frontend",   src: "/react.png" },
-  { name: "Vue.js",      category: "frontend",   src: null },
+  { name: "HTML5",       category: "frontend" },
+  { name: "CSS3",        category: "frontend" },
+  { name: "JavaScript",  category: "frontend" },
+  { name: "Angular",     category: "frontend" },
+  { name: "React",       category: "frontend" },
+  { name: "Vue.js",      category: "frontend" },
   // Backend
-  { name: "Laravel",     category: "backend",    src: null },
-  { name: "PHP",         category: "backend",    src: null },
-  { name: "Node.js",     category: "backend",    src: "/node.png" },
-  { name: "Python",      category: "backend",    src: "/python.png" },
-  { name: "PostgreSQL",  category: "backend",    src: "/postgresql.png" },
-  { name: "MySQL",       category: "backend",    src: "/mysql.png" },
-  { name: "MongoDB",     category: "backend",    src: "/mongodb.png" },
-  { name: "Firebase",    category: "backend",    src: null },
-  { name: "Supabase",    category: "backend",    src: null },
+  { name: "Laravel",     category: "backend" },
+  { name: "PHP",         category: "backend" },
+  { name: "Node.js",     category: "backend" },
+  { name: "Python",      category: "backend" },
+  { name: "PostgreSQL",  category: "backend" },
+  { name: "MySQL",       category: "backend" },
+  { name: "MongoDB",     category: "backend" },
+  { name: "Firebase",    category: "backend" },
+  { name: "Supabase",    category: "backend" },
   // AI & automation: the shared AI tools list (also shown in the hero), plus these
   ...[...aiTools.map((t) => t.name), "Zapier", "Make", "MCP", "RAG"].map(
-    (name): Skill => ({ name, category: "automation", src: null }),
+    (name): Skill => ({ name, category: "automation" }),
   ),
   // Tools
-  { name: "Git",         category: "tools",      src: null },
-  { name: "GitHub",      category: "tools",      src: null },
-  { name: "Bitbucket",   category: "tools",      src: null },
-  { name: "Docker",      category: "tools",      src: null },
-  { name: "Vercel",      category: "tools",      src: null },
-  { name: "Figma",       category: "tools",      src: null },
-  { name: "WordPress",   category: "tools",      src: null },
-  { name: "SEO",         category: "tools",      src: null },
+  { name: "Git",         category: "tools" },
+  { name: "GitHub",      category: "tools" },
+  { name: "Bitbucket",   category: "tools" },
+  { name: "Docker",      category: "tools" },
+  { name: "Vercel",      category: "tools" },
+  { name: "Figma",       category: "tools" },
+  { name: "WordPress",   category: "tools" },
+  { name: "SEO",         category: "tools" },
 ];
 
 const categoryLabel: Record<Exclude<Category, "all">, string> = {
@@ -72,18 +71,6 @@ const categoryBg: Record<Exclude<Category, "all">, string> = {
   automation: "rgba(245,158,11,0.08)",
   tools:      "rgba(168,85,247,0.08)",
 };
-
-// Letter icon fallback when no image
-function LetterIcon({ name, category }: { name: string; category: Exclude<Category, "all"> }) {
-  return (
-    <div
-      style={{ background: categoryBg[category], border: `1px solid ${categoryAccent[category]}30` }}
-      className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold"
-    >
-      <span style={{ color: categoryAccent[category] }}>{name.slice(0, 2)}</span>
-    </div>
-  );
-}
 
 export default function TechStack() {
   const [active, setActive] = useState<Category>("all");
@@ -150,16 +137,10 @@ export default function TechStack() {
                 style={{ background: `linear-gradient(90deg, transparent, ${categoryAccent[skill.category]}, transparent)` }}
               />
 
-              {/* Logo or letter */}
-              {skill.src ? (
-                <div className="w-10 h-10 flex items-center justify-center relative z-10">
-                  <Image src={skill.src} alt={skill.name} width={40} height={40} className="object-contain" />
-                </div>
-              ) : (
-                <div className="relative z-10">
-                  <LetterIcon name={skill.name} category={skill.category} />
-                </div>
-              )}
+              {/* One-colour logo: theme text colour, category colour on hover */}
+              <div className="w-10 h-10 flex items-center justify-center relative z-10 text-[var(--text-primary)] opacity-80 transition-[color,opacity] duration-300 group-hover:opacity-100 group-hover:text-[var(--cat-color)]">
+                <TechIcon name={skill.name} />
+              </div>
 
               {/* Name */}
               <p className="text-xs font-medium text-[var(--text-primary)] text-center leading-tight relative z-10">
