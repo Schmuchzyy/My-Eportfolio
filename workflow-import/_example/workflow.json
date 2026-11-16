@@ -1,0 +1,35 @@
+{
+  "slug": "email-triage-bot",
+  "title": "Email Triage Bot",
+  "description": "Sorts incoming support email with AI, drafts replies for routine questions, and turns real issues into tickets for the right team.",
+  "overview": [
+    "A Gmail trigger picks up each new email. OpenAI reads it and returns a category (sales, support, billing or other) and a confidence score.",
+    "Routine questions get a drafted reply saved in Gmail for a person to check and send. Support issues become Airtable tickets assigned to the matching team. Anything below 70% confidence is flagged for a human instead of being auto-routed."
+  ],
+  "flow": ["Gmail trigger", "OpenAI classify", "Router", "Airtable"],
+  "tools": ["n8n", "OpenAI", "Gmail", "Airtable"],
+  "status": "live",
+  "result": null,
+  "link": null,
+  "screenshots": [
+    {
+      "file": "01-canvas.png",
+      "alt": "n8n canvas for the Email Triage Bot workflow",
+      "title": "The full workflow in n8n",
+      "description": [
+        "Left to right: the Gmail trigger, the OpenAI classification step, then a router that splits into one branch per category."
+      ]
+    },
+    {
+      "file": "02-classify-node.png",
+      "alt": "OpenAI node settings showing the classification prompt",
+      "title": "How emails are classified",
+      "description": [
+        "The prompt asks for a category and a confidence score as JSON, so the next node can branch on it without any text parsing."
+      ]
+    }
+  ],
+  "screenshotsNeeded": [],
+  "n8n": { "workflowId": "42", "active": true, "lastRun": "success", "nodeCount": 11 },
+  "notesForClaude": "EXAMPLE ONLY. Not a real workflow; shows the expected format."
+}
