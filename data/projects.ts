@@ -5,6 +5,8 @@
  * - `imageFit`: "contain" for logos, "cover" for screenshots.
  * - `workflow` links the card to a workflow panel in the Workflow Automation
  *   section (use its slug from data/automations.ts) instead of an outside link.
+ * - New projects come from other sessions via project-import/<slug>/
+ *   (see project-import/PROJECT_BRIEF.md).
  */
 export type ProjectIcon = "workflow" | "search" | "globe";
 
@@ -19,7 +21,10 @@ export interface Project {
   imageFit?: "contain" | "cover";
   icon?: ProjectIcon;
   workflow?: string;
+  /** Live site, shown as "Live demo" */
   link?: string | null;
+  /** Public GitHub repo, shown as "Code" */
+  repo?: string | null;
 }
 
 export const projects: Project[] = [
@@ -44,6 +49,18 @@ export const projects: Project[] = [
     image: "/workflows/ai-enquiry-triage/01-canvas.png",
     imageFit: "cover",
     workflow: "ai-enquiry-triage",
+  },
+  {
+    title: "Late Night Thoughts",
+    kind: "Personal project",
+    period: "2026",
+    description:
+      "A privacy-first journaling app: write what's keeping you up and a calm AI friend replies, streamed live from your choice of 11 providers using your own key, which never leaves the browser. Tagged notes, search, export and offline install.",
+    tags: ["JavaScript", "LLM APIs", "Streaming (SSE)", "PWA", "Vercel"],
+    image: "/projects/late-night-thoughts.png",
+    imageFit: "cover",
+    link: "https://latenightthoughts.vercel.app",
+    repo: "https://github.com/Schmuchzyy/LateNightThoughts",
   },
   {
     title: "n8n Workflow Automation Suite",

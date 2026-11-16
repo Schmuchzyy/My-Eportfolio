@@ -45,3 +45,9 @@ next-env.d.ts
 /workflow-import/*
 !/workflow-import/ORCHESTRATOR_BRIEF.md
 !/workflow-import/_example/
+
+# project-import: drop folder for project exports from other sessions.
+# Only the brief and example are tracked; raw exports are reviewed before use.
+/project-import/*
+!/project-import/PROJECT_BRIEF.md
+!/project-import/_example/

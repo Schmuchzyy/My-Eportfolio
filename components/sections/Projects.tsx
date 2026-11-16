@@ -3,7 +3,7 @@
 import SectionHeader from "@/components/SectionHeader";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ArrowRight, ExternalLink, Globe, SearchCheck, Workflow } from "lucide-react";
+import { ArrowRight, ExternalLink, Github, Globe, SearchCheck, Workflow } from "lucide-react";
 import { projects, type ProjectIcon } from "@/data/projects";
 import { openWorkflow, workflowHref } from "@/lib/workflowPanel";
 
@@ -19,7 +19,7 @@ export default function Projects() {
       <SectionHeader title="Projects Showcase" subtitle="A selection of my recent work and personal projects" />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl w-full">
-        {projects.map(({ title, kind, period, description, tags, image, imageFit = "contain", icon = "globe", workflow, link }, i) => {
+        {projects.map(({ title, kind, period, description, tags, image, imageFit = "contain", icon = "globe", workflow, link, repo }, i) => {
           const Icon = icons[icon];
           return (
             <motion.article
@@ -69,9 +69,9 @@ export default function Projects() {
                   ))}
                 </div>
 
-                {(workflow || link) && (
-                  <div className="mt-auto pt-4">
-                    {workflow ? (
+                {(workflow || link || repo) && (
+                  <div className="mt-auto pt-4 flex flex-wrap items-center gap-x-5 gap-y-1">
+                    {workflow && (
                       <a
                         href={workflowHref(workflow)}
                         onClick={(e) => {
@@ -82,14 +82,25 @@ export default function Projects() {
                       >
                         See the workflow <ArrowRight size={14} />
                       </a>
-                    ) : (
+                    )}
+                    {link && (
                       <a
-                        href={link!}
+                        href={link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 py-1 text-[#1e90ff] text-sm font-medium hover:underline"
                       >
-                        View project <ExternalLink size={12} />
+                        Live demo <ExternalLink size={13} />
+                      </a>
+                    )}
+                    {repo && (
+                      <a
+                        href={repo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 py-1 text-[var(--text-muted)] text-sm font-medium hover:text-[var(--text-primary)] transition-colors"
+                      >
+                        <Github size={14} /> Code
                       </a>
                     )}
                   </div>

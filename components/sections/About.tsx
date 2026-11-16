@@ -87,7 +87,7 @@ export default function About() {
           <div className="flex flex-col justify-center gap-4 flex-1">
             <div className="text-center md:text-left">
               <h2 className="text-2xl font-bold text-[var(--text-primary)]">Sean Anunciacion</h2>
-              <p className="text-[#1e90ff] font-medium text-sm mt-0.5">Agentic Engineer · Full Stack Developer · Workflow Automation</p>
+              <p className="text-[#1e90ff] font-medium text-sm mt-0.5">Agentic Engineer · Full Stack Developer · Workflow Automation Specialist</p>
             </div>
 
             <p className="text-[var(--text-muted)] leading-relaxed text-sm">

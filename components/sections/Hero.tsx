@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { aiTools } from "@/data/aiTools";
 
-const roles = ["Agentic Engineer", "Full Stack Developer", "Workflow Automation Builder", "AI Enthusiast"];
+const roles = ["Agentic Engineer", "Full Stack Developer", "Workflow Automation Specialist", "AI Enthusiast"];
 
 export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);

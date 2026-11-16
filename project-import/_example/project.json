@@ -1,0 +1,22 @@
+{
+  "slug": "missing-person-reporting-platform",
+  "title": "Missing Person Reporting Platform",
+  "kind": "Capstone project · HAU",
+  "period": "Dec 2024 – Mar 2025",
+  "description": "A responsive platform for reporting missing persons, with real-time updates, user accounts and secure cloud storage for reports and photos.",
+  "highlights": [
+    "Real-time report updates with Firebase so new sightings appear without refreshing.",
+    "Sign-in and role-based access so only verified users can edit a report.",
+    "End-to-end testing across browsers and phone sizes before submission."
+  ],
+  "tags": ["Vue.js", "Firebase", "Authentication", "Cloud Storage"],
+  "liveUrl": null,
+  "repoUrl": null,
+  "screenshots": [
+    {
+      "file": "01-cover.png",
+      "alt": "Report list with a search bar and recent missing person reports"
+    }
+  ],
+  "notesForClaude": "EXAMPLE ONLY. Shows the expected format; the highlights here are illustrative."
+}
