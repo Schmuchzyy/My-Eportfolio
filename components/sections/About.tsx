@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Facebook, Linkedin, Github, MapPin, GraduationCap, Briefcase, Sparkles } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
 import { certificates } from "@/data/certificates";
+import { projects } from "@/data/projects";
+import { automations } from "@/data/automations";
 
 const socials = [
   { label: "Facebook", href: "https://www.facebook.com/timothy.sean.463987/", icon: Facebook },
@@ -12,10 +14,11 @@ const socials = [
   { label: "GitHub", href: "https://github.com/XxSchmuchzyxX", icon: Github },
 ];
 
+// Counted from the data files, so the numbers always match what the page shows
 const stats = [
   { label: "Years Learning", value: "4+" },
-  { label: "Projects Built", value: "10+" },
-  { label: "Technologies", value: "15+" },
+  { label: "Projects", value: String(projects.length) },
+  { label: "n8n Workflows", value: String(automations.length) },
   { label: "Certifications", value: String(certificates.length) },
 ];
 
