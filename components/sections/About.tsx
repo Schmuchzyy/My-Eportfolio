@@ -11,7 +11,7 @@ import { automations } from "@/data/automations";
 const socials = [
   { label: "Facebook", href: "https://www.facebook.com/timothy.sean.463987/", icon: Facebook },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/sean-anunciacion-353765329", icon: Linkedin },
-  { label: "GitHub", href: "https://github.com/XxSchmuchzyxX", icon: Github },
+  { label: "GitHub", href: "https://github.com/Schmuchzyy", icon: Github },
 ];
 
 // Counted from the data files, so the numbers always match what the page shows
@@ -114,7 +114,7 @@ export default function About() {
             </div>
 
             <a
-              href="/Sean-Anunciacion-Resume.pdf"
+              href="/Sean-Anunciacion-Resume-v9.5.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex justify-center w-full sm:w-fit px-5 py-3 sm:py-2.5 rounded-full bg-[#1e90ff] text-white font-medium hover:bg-[#1a7ae0] transition-colors text-sm mt-1"
