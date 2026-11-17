@@ -28,6 +28,12 @@ export function openPanel(prefix: string, slug: string) {
   window.dispatchEvent(new HashChangeEvent("hashchange"));
 }
 
+/** Swap the open panel for another without adding a history entry, so Back still closes it. */
+export function switchPanel(prefix: string, slug: string) {
+  window.history.replaceState(window.history.state, "", `${prefix}${slug}`);
+  window.dispatchEvent(new HashChangeEvent("hashchange"));
+}
+
 export function closePanel() {
   if (window.history.state?.detailPanel) {
     window.history.back();
@@ -49,4 +55,5 @@ const PROJECT = "#project-";
 export const useOpenProjectSlug = () => useHashSlug(PROJECT);
 export const projectHref = (slug: string) => `${PROJECT}${slug}`;
 export const openProject = (slug: string) => openPanel(PROJECT, slug);
+export const switchProject = (slug: string) => switchPanel(PROJECT, slug);
 export const closeProject = closePanel;

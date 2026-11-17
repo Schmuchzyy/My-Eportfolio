@@ -8,6 +8,8 @@ import {
   siGithub, siGithubcopilot, siHtml5, siJavascript, siLaravel, siMake, siModelcontextprotocol,
   siMongodb, siMysql, siN8n, siNodedotjs, siOllama, siPhp, siPostgresql, siPython, siReact,
   siReplit, siSupabase, siVercel, siVuedotjs, siWordpress, siZapier,
+  siElectron, siGooglegemini, siMapbox, siNextdotjs, siPandas, siPwa, siStreamlit, siTailwindcss,
+  siTypescript, siVite,
 } from "simple-icons";
 import { Brain, DatabaseZap, Heart, SearchCheck, SquareTerminal, type LucideIcon } from "lucide-react";
 
@@ -55,6 +57,24 @@ const icons: Record<string, Icon> = {
   Figma: siFigma,
   WordPress: siWordpress,
   SEO: SearchCheck,
+  // Extra names used in project tags
+  TypeScript: siTypescript,
+  "Next.js": siNextdotjs,
+  "Tailwind CSS": siTailwindcss,
+  Vite: siVite,
+  Electron: siElectron,
+  Streamlit: siStreamlit,
+  pandas: siPandas,
+  "Gemini API": siGooglegemini,
+  "Claude API": siClaude,
+  Mapbox: siMapbox,
+  PWA: siPwa,
+};
+
+/** True when `name` has a real brand logo (not a generic icon or letters). */
+export const hasBrandLogo = (name: string) => {
+  const icon = icons[name];
+  return icon === "nod" || (typeof icon === "object" && "path" in icon);
 };
 
 export default function TechIcon({ name, size = 28 }: { name: string; size?: number }) {

@@ -21,8 +21,12 @@ export interface Project {
   /** e.g. "Portfolio project", "Capstone project · HAU" */
   kind: string;
   period?: string;
-  /** One or two sentences shown on the card */
+  /** About 12 words, shown on grid cards */
+  tagline: string;
+  /** 25–45 words, shown on the featured card */
   description: string;
+  /** Shown as the wide card at the top of the section. Mark one project. */
+  featured?: boolean;
   /** Longer write-up shown in the panel, one string per paragraph */
   overview: string[];
   /** Concrete things built or solved, shown as a list in the panel */
@@ -35,12 +39,18 @@ export interface Project {
   link?: string | null;
   /** Public GitHub repo, shown as "Code" */
   repo?: string | null;
+  /** "in-development" shows an amber In development badge instead of Live */
+  status?: "in-development";
+  /** Waitlist or landing page for an unreleased project, shown as "Join waitlist" */
+  waitlist?: string | null;
   screenshots: Screenshot[];
 }
 
 export const projects: Project[] = [
   {
     slug: "late-night-thoughts",
+    tagline: "A calm AI journaling app that runs on your own key and works offline.",
+    featured: true,
     title: "Late Night Thoughts",
     kind: "Personal project",
     period: "2026",
@@ -94,6 +104,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hr-helpdesk-agent",
+    tagline: "An AI HR assistant that answers from the handbook and escalates sensitive cases.",
     title: "HR Helpdesk Agent",
     kind: "Personal project",
     period: "2026",
@@ -147,7 +158,58 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "task-dew",
+    tagline: "A time tracker that shows your work habit as a picture, not a report.",
+    title: "Task Dew",
+    kind: "Personal project",
+    period: "Aug 2026 – Present",
+    status: "in-development",
+    description: "A time tracker for students, knowledge workers and solo makers that shows progress as a picture instead of a report. You set a daily goal, and each day on the calendar fills in as you work. Currently in development.",
+    overview: [
+      "Most time trackers give you tables and totals, which are easy to ignore. Task Dew is for people who want to build a steady work habit and see it at a glance. You set a goal for the day, track your time, and the calendar shows how far each day got. A month of work reads as a picture you can understand without reading numbers.",
+      "It's a desktop app built with React and TypeScript, packaged with Electron, and it also runs in the browser. Everything is stored locally on your machine, and the app doesn't send data anywhere. A missed day looks neutral, never like a failure, and there are no streaks or points.",
+      "The concept, the design and most of the main screens are built and working: the calendar, the timer, to-dos, the year view, the end-of-day summary, and light and dark modes. The illustrations are placeholders while the final art is chosen, and onboarding and sound are still being worked on. It isn't released yet.",
+    ],
+    highlights: [
+      "Built the month calendar, where each day shows progress against that day's goal.",
+      "Built a to-do list with repeating items that feeds the timer.",
+      "Built the year view with yearly totals and the end-of-day summary.",
+      "Designed a light and dark mode, plus a desktop version with a floating timer window.",
+      "Wrote about 700 automated tests covering the time-tracking and history logic.",
+    ],
+    tags: ["React", "TypeScript", "Electron", "IndexedDB", "Vite"],
+    context: "In development under a working name. All data in the screenshots is sample data, and the illustrations are placeholders.",
+    icon: "code",
+    screenshots: [
+      {
+        src: "/projects/task-dew/01-cover.png",
+        alt: "Task Dew's main screen: a November month calendar where past days show small plant illustrations, a to-do list in the middle, and today's card on the right showing 2h 2m tracked of a 4 hour goal with a Start button",
+        title: "The main screen",
+        description: ["The month calendar, the to-do list and today's card side by side. Each past day shows how far it got against its goal, and the week column on the right totals the time."],
+      },
+      {
+        src: "/projects/task-dew/02-year-view.png",
+        alt: "Year view panel with a grid of colored squares for every day of 2026, and totals for time tracked, days tracked and the longest run of tracked days",
+        title: "The year view",
+        description: ["The whole year in one grid, from lighter to darker by how much was tracked. Below it are the year's totals and the busiest month."],
+      },
+      {
+        src: "/projects/task-dew/03-day-summary.png",
+        alt: "A summary panel for Monday 16 November showing 2h 28m of Admin work, one finished to-do, and a Done button",
+        title: "The day summary",
+        description: ["A short recap of a finished day: the time per category and the to-dos that were completed during it."],
+      },
+      {
+        src: "/projects/task-dew/04-dark-mode.png",
+        alt: "The same main screen in dark mode, with dark cards and the same calendar, to-dos and today's progress",
+        title: "Dark mode",
+        description: ["The app has Light, Dark and Default modes, set in Settings."],
+      },
+    ],
+  },
+  {
     slug: "missing-person-reporting-platform",
+    tagline: "Report and search missing persons, with live updates and an admin map.",
     title: "PHinder: Missing Person Reporting Platform",
     kind: "Capstone project · HAU",
     period: "Dec 2024 – Mar 2025",
@@ -204,6 +266,7 @@ export const projects: Project[] = [
   },
   {
     slug: "personal-e-portfolio",
+    tagline: "This site, built in Next.js with focus-mode panels for every project.",
     title: "Personal E-Portfolio",
     kind: "Personal project",
     period: "2026",
@@ -234,10 +297,10 @@ export const projects: Project[] = [
       },
       {
         src: "/projects/personal-e-portfolio/02-projects.png",
-        alt: "Projects Showcase section with three project cards",
+        alt: "Projects Showcase section with a wide featured project above a grid of project cards",
         title: "Project cards",
         description: [
-          "Each card shows a cover screenshot, the stack and links to the live site and code. Clicking anywhere on a card opens it in focus mode.",
+          "A featured project sits on top and the rest follow in a grid. Each card shows a cover screenshot, a one-line summary and the stack as logos. Clicking a card opens it in focus mode, where previous and next buttons move between projects.",
         ],
       },
       {

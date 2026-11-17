@@ -29,6 +29,7 @@ C:\Users\Admin\Documents\My-Eportfolio\project-import\
   "title": "Late Night Thoughts",
   "kind": "Personal project",
   "period": "2026",
+  "tagline": "One line for the project card, about 12 words.",
   "description": "What it is, who it's for and what makes it interesting. 25–45 words.",
   "overview": [
     "Paragraph 1: what the app does and who it's for.",
@@ -61,7 +62,8 @@ Field rules:
 |---|---|
 | `kind` | e.g. `Personal project`, `Portfolio project`, `Capstone project · HAU`, `Client project`. |
 | `period` | Year, or `Mon YYYY – Mon YYYY`, or `2025 – Present`. |
-| `description` | 25–45 words. Shown on the project card. Plain and specific. |
+| `tagline` | About 12 words. Shown on the project card. |
+| `description` | 25–45 words. Shown when the project is featured. Plain and specific. |
 | `overview` | 2–3 short paragraphs for the detail panel. |
 | `highlights` | 2–4 bullets. Real things you built (a feature, a fix, a test), not adjectives. |
 | `tags` | 3–6 main technologies, most important first. |

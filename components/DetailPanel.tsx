@@ -16,6 +16,8 @@ interface ShellProps {
   /** One-line background shown under the title */
   context?: string;
   children?: React.ReactNode;
+  /** Pinned under the scrolling body, e.g. previous/next links */
+  footer?: React.ReactNode;
 }
 
 /**
@@ -23,7 +25,7 @@ interface ShellProps {
  * body. Full-screen on phones, a centered window on larger screens.
  * Renders nothing while `itemKey` is null.
  */
-export default function DetailPanel({ itemKey, onClose, badges, title, context, children }: ShellProps) {
+export default function DetailPanel({ itemKey, onClose, badges, title, context, children, footer }: ShellProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const open = itemKey !== null;
 
@@ -91,10 +93,21 @@ export default function DetailPanel({ itemKey, onClose, badges, title, context, 
               </button>
             </header>
 
-            {/* Body */}
-            <div className="flex-1 overflow-y-auto overscroll-contain px-4 sm:px-6 pt-5 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+            {/* Body: keyed by item so switching items starts at the top */}
+            <div
+              key={itemKey}
+              className={`flex-1 overflow-y-auto overscroll-contain px-4 sm:px-6 pt-5 ${
+                footer ? "pb-6" : "pb-[max(1.5rem,env(safe-area-inset-bottom))]"
+              }`}
+            >
               {children}
             </div>
+
+            {footer && (
+              <footer className="border-t border-[var(--border-color)] bg-[var(--surface)] px-2 sm:px-4 pt-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))]">
+                {footer}
+              </footer>
+            )}
           </motion.div>
         </motion.div>
       )}
